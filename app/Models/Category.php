@@ -8,12 +8,10 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
-        'desc',
-        'is_active'
+        'description',
+        'is_active',
     ];
-
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 }
