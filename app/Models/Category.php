@@ -8,7 +8,7 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
-        'description',
+        'desc',
         'is_active',
     ];
     protected $casts = [

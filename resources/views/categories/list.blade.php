@@ -1,7 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    
-@endsection
     <div class="container">
         {{-- {{dd($categories)}} --}}
         <a href="{{route('categories.create')}}" class="btn btn-info"> create+</a>
@@ -21,8 +19,6 @@
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->desc }}</td>
                         <td>
-                            <a href="" data-bs-toggle="modal" data-bs-target="#showCategory{{$category->id}}">
-                                
                             <a href="" data-bs-toggle="modal" data-bs-target="#showCategory{{ $category->id }}">
                                 <i class="fa-solid fa-eye text-success"></i>
                             </a>
@@ -44,3 +40,4 @@
             </tbody>
         </table>
     </div>
+@endsection

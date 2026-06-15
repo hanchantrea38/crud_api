@@ -9,16 +9,14 @@ class Product extends Model
     protected $fillable = [
         'category_id',
         'name',
-        'image',
+        'description',
         'price',
-        'stock',
-        'is_active',
+        'qty',
     ];
 
     protected $casts = [
         'price' => 'float',
-        'stock' => 'integer',
-        'is_active' => 'boolean',
+        'qty' => 'integer',
     ];
 
     /**
@@ -28,20 +26,4 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
-    /**
-     * Get the absolute URL for the product image
-     */
-    protected function getImageUrlAttribute()
-    {
-        if ($this->image) {
-            return asset('storage/' . $this->image);
-        }
-        return null;
-    }
-
-    /**
-     * Append the image_url attribute to JSON response
-     */
-    protected $appends = ['image_url'];
 }

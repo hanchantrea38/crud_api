@@ -10,7 +10,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();                                    // Unique Auto-increment Key
             $table->string('name');                          // Category Title (Required)
-            $table->text('desc')->nullable()->change();                     // Detailed Text (Required)
+            $table->text('desc')->nullable();                 // Detailed Text
             $table->boolean('is_active')->default(true);     // Toggle Active/Inactive Status
             $table->timestamps();                            // created_at & updated_at
         });

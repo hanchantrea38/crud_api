@@ -17,10 +17,9 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
             $table->string('name');
-            $table->string('image')->nullable();
+            $table->text('description');
             $table->decimal('price', 10, 2);
-            $table->integer('stock');
-            $table->boolean('is_active')->default(true);
+            $table->integer('qty');
             $table->timestamps();
         });
     }

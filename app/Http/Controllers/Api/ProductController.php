@@ -7,7 +7,6 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -25,17 +24,16 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a new product with image upload
+     * Store a new product
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'is_active' => 'sometimes|boolean',
+            'qty' => 'required|integer|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -47,15 +45,6 @@ class ProductController extends Controller
         }
 
         $data = $validator->validated();
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-            $data['image'] = $imagePath;
-        }
-
-        // Set default value for is_active
-        $data['is_active'] = $data['is_active'] ?? true;
 
         $product = Product::create($data);
         $product->load('category');
@@ -88,7 +77,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update a product with optional image replacement
+     * Update a product
      */
     public function update(Request $request, $id)
     {
@@ -104,10 +93,9 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'category_id' => 'sometimes|exists:categories,id',
             'name' => 'sometimes|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'sometimes|string',
             'price' => 'sometimes|numeric|min:0',
-            'stock' => 'sometimes|integer|min:0',
-            'is_active' => 'sometimes|boolean',
+            'qty' => 'sometimes|integer|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -120,17 +108,6 @@ class ProductController extends Controller
 
         $data = $validator->validated();
 
-        // Handle image replacement
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($product->image && Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
-            }
-            // Store new image
-            $imagePath = $request->file('image')->store('products', 'public');
-            $data['image'] = $imagePath;
-        }
-
         $product->update($data);
         $product->load('category');
 
@@ -142,7 +119,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Delete a product and its image file
+     * Delete a product
      */
     public function destroy($id)
     {
@@ -155,12 +132,6 @@ class ProductController extends Controller
             ], 404);
         }
 
-        // Delete image file from storage if exists
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
-        }
-
-        // Delete the product record
         $product->delete();
 
         return response()->json([
