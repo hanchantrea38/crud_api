@@ -15,13 +15,16 @@ class CategorySeeder extends Seeder
     {
         Category::create([
             'name' => 'Mobile',
-            'desc' => 'mobile description',
             'is_active' => false,
         ]);
 
         Category::create([
             'name' => 'Laptop',
-            'desc' => 'Laptop description',
+            'is_active' => true,
+        ]);
+
+        Category::create([
+            'name' => 'Mango',
             'is_active' => true,
         ]);
     }

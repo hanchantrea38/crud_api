@@ -8,6 +8,15 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('categories',CategoryController::class);
+// Route::apiResource('categories',CategoryController::class);
+Route::apiResource('categories', CategoryController::class)->names([
+    'index'   => 'api.categories.index',
+    'store'   => 'api.categories.store',
+    'show'    => 'api.categories.show',
+    'update'  => 'api.categories.update',
+    'destroy' => 'api.categories.destroy',
+]);
+
+
 
 
