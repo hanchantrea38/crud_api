@@ -25,6 +25,14 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'qty' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
         Product::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -33,12 +41,12 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
         ]);
 
-        return redirect('/products');
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     public function edit(string $id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $categories = Category::all();
         
         return view('products.edit', compact('product', 'categories'));
@@ -46,7 +54,15 @@ class ProductController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $product = Product::find($id);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'qty' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $product = Product::findOrFail($id);
         $product->update([
             'name' => $request->name,
             'description' => $request->description,
@@ -55,14 +71,14 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
         ]);
 
-        return redirect('/products');
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     public function destroy(string $id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $product->delete();
 
-        return redirect('/products');
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }

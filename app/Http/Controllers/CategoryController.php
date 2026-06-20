@@ -36,49 +36,54 @@ class CategoryController extends Controller
     }
 
  
-    public function store()
+    public function store(Request $request)
     {
-    
-        Category::create(
-            [
-                'name' => request()->name,
-                'desc' => request()->desc,
-                'is_active' => request()->has('is_active') ? true : false,
-            ]
-        );
-        return redirect('/categories');
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'desc' => 'nullable|string',
+            'is_active' => 'sometimes|boolean',
+        ]);
+
+        Category::create([
+            'name' => $request->name,
+            'desc' => $request->desc,
+            'is_active' => $request->has('is_active'),
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
 
     public function edit(string $id)
     {
-
-        $category = category::find($id);
-        // dd($category);
+        $category = Category::findOrFail($id);
         return view('categories.edit', compact('category'));
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        // dd($id);
-        // dd(request()->all());
-        $category = Category::find($id);
-        $category->update(
-            [
-                'name' => request()->name,
-                'desc' => request()->desc,
-                'is_active' => request()->has('is_active') ? true : false,
-            ]
-        );
-        return redirect('categories');
-        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'desc' => 'nullable|string',
+            'is_active' => 'sometimes|boolean',
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->update([
+            'name' => $request->name,
+            'desc' => $request->desc,
+            'is_active' => $request->has('is_active'),
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
+
     public function destroy($id)
     {
-        // dd($id);
-        $category = Category::find($id);
-        $category ->delete();
-        return redirect('/categories');
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 
 

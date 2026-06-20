@@ -39,7 +39,7 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed',
+                'message' => 'Validation failed: ' . implode(', ', $validator->errors()->all()),
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -59,9 +59,9 @@ class ProductController extends Controller
     /**
      * Show a single product with its category details
      */
-    public function show($id)
+    public function show($product)
     {
-        $product = Product::with('category')->find($id);
+        $product = Product::with('category')->find($product);
 
         if (!$product) {
             return response()->json([
@@ -79,9 +79,9 @@ class ProductController extends Controller
     /**
      * Update a product
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $product)
     {
-        $product = Product::find($id);
+        $product = Product::find($product);
 
         if (!$product) {
             return response()->json([
@@ -101,7 +101,7 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed',
+                'message' => 'Validation failed: ' . implode(', ', $validator->errors()->all()),
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -121,9 +121,9 @@ class ProductController extends Controller
     /**
      * Delete a product
      */
-    public function destroy($id)
+    public function destroy($product)
     {
-        $product = Product::find($id);
+        $product = Product::find($product);
 
         if (!$product) {
             return response()->json([

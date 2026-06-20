@@ -36,7 +36,7 @@
 
                 <div class="mb-6">
                     <label for="desc" class="block text-gray-700 font-semibold mb-2">Description</label>
-                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" id="desc" name="desc" rows="6">{{ old('desc') }}</textarea>
+                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" id="desc" name="desc" rows="6" required>{{ old('desc') }}</textarea>
                 </div>
 
                 <div class="flex gap-4">

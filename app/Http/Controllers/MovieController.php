@@ -21,39 +21,43 @@ class MovieController extends Controller
 
     public function store(Request $request)
     {
-        Movie::create([
-            'name' => $request->name,
-            'date' => $request->date,
-            'desc' => $request->desc,
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'desc' => 'required|string',
         ]);
 
-        return redirect('/movies');
+        Movie::create($data);
+
+        return redirect()->route('movies.index')->with('success', 'Movie created successfully.');
     }
 
     public function edit(string $id)
     {
-        $movie = Movie::find($id);
+        $movie = Movie::findOrFail($id);
         
         return view('movies.edit', compact('movie'));
     }
 
     public function update(Request $request, string $id)
     {
-        $movie = Movie::find($id);
-        $movie->update([
-            'name' => $request->name,
-            'date' => $request->date,
-            'desc' => $request->desc,
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'desc' => 'required|string',
         ]);
 
-        return redirect('/movies');
+        $movie = Movie::findOrFail($id);
+        $movie->update($data);
+
+        return redirect()->route('movies.index')->with('success', 'Movie updated successfully.');
     }
 
     public function destroy(string $id)
     {
-        $movie = Movie::find($id);
+        $movie = Movie::findOrFail($id);
         $movie->delete();
 
-        return redirect('/movies');
+        return redirect()->route('movies.index')->with('success', 'Movie deleted successfully.');
     }
 }

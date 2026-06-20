@@ -31,7 +31,7 @@
 
                 <div class="mb-4">
                     <label for="description" class="block text-gray-700 font-semibold mb-2">Description</label>
-                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="description" name="description" rows="4">{{ old('description') }}</textarea>
+                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 mb-4">

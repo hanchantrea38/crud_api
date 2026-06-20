@@ -27,22 +27,22 @@
 
                 <div class="mb-4">
                     <label for="name" class="block text-gray-700 font-semibold mb-2">Product Name</label>
-                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="name" name="name" value="{{ $product->name }}" required>
+                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="name" name="name" value="{{ old('name', $product->name) }}" required>
                 </div>
 
                 <div class="mb-4">
                     <label for="description" class="block text-gray-700 font-semibold mb-2">Description</label>
-                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="description" name="description" rows="4">{{ $product->description }}</textarea>
+                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="description" name="description" rows="4" required>{{ old('description', $product->description) }}</textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
                         <label for="price" class="block text-gray-700 font-semibold mb-2">Price</label>
-                        <input type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="price" name="price" value="{{ $product->price }}" required>
+                        <input type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="price" name="price" value="{{ old('price', $product->price) }}" required>
                     </div>
                     <div>
                         <label for="qty" class="block text-gray-700 font-semibold mb-2">Quantity</label>
-                        <input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="qty" name="qty" value="{{ $product->qty }}" required>
+                        <input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="qty" name="qty" value="{{ old('qty', $product->qty) }}" required>
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@
                     <label for="category_id" class="block text-gray-700 font-semibold mb-2">Category</label>
                     <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="category_id" name="category_id" required>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach

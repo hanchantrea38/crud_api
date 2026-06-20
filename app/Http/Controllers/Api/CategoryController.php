@@ -28,14 +28,14 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'desc' => 'required|string',
+            'desc' => 'nullable|string',
             'is_active' => 'sometimes|boolean',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed',
+                'message' => 'Validation failed: ' . implode(', ', $validator->errors()->all()),
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -77,9 +77,9 @@ class CategoryController extends Controller
     /**
      * Update category
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $category)
     {
-        $category = Category::find($id);
+        $category = Category::find($category);
 
         if (!$category) {
             return response()->json([
@@ -90,14 +90,14 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string|max:255',
-            'desc' => 'sometimes|string',
+            'desc' => 'nullable|string',
             'is_active' => 'sometimes|boolean',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed',
+                'message' => 'Validation failed: ' . implode(', ', $validator->errors()->all()),
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -114,9 +114,9 @@ class CategoryController extends Controller
     /**
      * Delete category
      */
-    public function destroy($id)
+    public function destroy($category)
     {
-        $category = Category::find($id);
+        $category = Category::find($category);
 
         if (!$category) {
             return response()->json([

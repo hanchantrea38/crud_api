@@ -1,9 +1,19 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
-        {{-- {{dd($categories)}} --}}
-        <a href="{{route('categories.create')}}" class="btn btn-info"> create+</a>
-        <table class="table">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="font-bold text-gray-900 text-3xl">Categories</h2>
+            <a href="{{route('categories.create')}}" class="btn btn-primary">Create Category+</a>
+        </div>
+
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>#</th>
